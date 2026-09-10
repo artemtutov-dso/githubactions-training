@@ -17,16 +17,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout
+      - name: Checkout
         uses: actions/checkout@v7
 
-      - name: print hello world
+      - name: Print hello world
         run: echo "Hello World"
 
-      - name: print working directory contents
+      - name: Print working directory contents
         run: ls -la
 
-      - name: print context
+      - name: Print context
         run: |
           echo "Context:"
           echo "GitHub: ${{ toJSON(github) }}"
@@ -35,3 +35,8 @@ jobs:
           echo "Repository: ${{ github.repository }}"
           echo "Actor: ${{ github.actor }}"
           echo "Run ID: ${{ github.run_id }}"
+
+      - name: Print&Write step summary
+        run: |
+          echo "SHA: ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "Bransh: ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
