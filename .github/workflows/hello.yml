@@ -1,0 +1,37 @@
+name: hello
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  NODE_VERSION: '22'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v7
+
+      - name: print hello world
+        run: echo "Hello World"
+
+      - name: print working directory contents
+        run: ls -la
+
+      - name: print context
+        run: |
+          echo "Context:"
+          echo "GitHub: ${{ toJSON(github) }}"
+          echo "Job: ${{ toJSON(job) }}"
+          echo "Runner: ${{ toJSON(runner) }}"
+          echo "Repository: ${{ github.repository }}"
+          echo "Actor: ${{ github.actor }}"
+          echo "Run ID: ${{ github.run_id }}"
