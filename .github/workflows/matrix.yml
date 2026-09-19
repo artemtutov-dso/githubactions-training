@@ -63,6 +63,7 @@ jobs:
             version: '3.12.3'
             experimental: true
 
+
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v8
@@ -84,6 +85,15 @@ jobs:
       - name: Run experimental something
         if: matrix.experimental == true
         run: echo "Running experimental thingie"
+
+      - name: Echo on failure
+        if: failure()
+        run: echo "Boo, failed test"
+
+      - name: Echo always 
+        if: always()
+        run: echo "Wow something is happenning"
+
 
   on_pull_request:
     if: github.event_name == 'pull_request'
