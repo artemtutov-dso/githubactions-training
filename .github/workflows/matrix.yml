@@ -59,7 +59,7 @@ jobs:
         version: [3.12.7, 3.12.6, 3.12.5, 3.12.4]
         os: [ubuntu-latest]
         include:
-          - os: ubuntu-latest
+          - os: macos-latest
             version: '3.12.3'
             experimental: true
 
@@ -84,6 +84,22 @@ jobs:
       - name: Run experimental something
         if: matrix.experimental == true
         run: echo "Running experimental thingie"
+
+  on_pull_request:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v8
+      - name: Run PR workflow things
+        run: echo "Running PR workflow"
+
+  on_merge_into_main:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v8
+      - name: Run merge into main workflow things
+        run: echo "Running merge into main bla bla bla workflow"
 
   deploy:
     needs: test
