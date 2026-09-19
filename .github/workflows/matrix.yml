@@ -107,7 +107,7 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v8
+      - uses: actions/checkout@v7
       - name: Run merge into main workflow things
         run: echo "Running merge into main bla bla bla workflow"
 
