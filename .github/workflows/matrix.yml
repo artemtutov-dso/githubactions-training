@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os}}
     strategy:
       fail-fast: false 
       matrix:
@@ -51,7 +51,7 @@ jobs:
           path: .
 
   test:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os}}
     needs: build
     strategy:
       fail-fast: false 
@@ -59,7 +59,7 @@ jobs:
         version: [3.12.7, 3.12.6, 3.12.5, 3.12.4]
         os: [ubuntu-latest]
         include:
-          - os: macos-latest
+          - os: ubuntu-latest
             version: '3.12.3'
             experimental: true
 
