@@ -20,8 +20,11 @@ jobs:
     strategy:
       fail-fast: false 
       matrix:
-        version: [3.12.7, 3.12.6, 3.12.5]
+        version: [3.12.7, 3.12.6, 3.12.5, 3.12.4, 3.12.3]
         os: [ubuntu-latest]
+        exclude:
+          - os: ubuntu-latest
+            version: '3.12.5'
 
     steps:
       - name: Checkout
@@ -53,8 +56,12 @@ jobs:
     strategy:
       fail-fast: false 
       matrix:
-        version: [3.12.7, 3.12.6, 3.12.5]
+        version: [3.12.7, 3.12.6, 3.12.5, 3.12.4]
         os: [ubuntu-latest]
+        include:
+          - os: macos-latest
+            version: '3.12.3'
+            experimental: true
 
     steps:
       - name: Download artifact
@@ -73,10 +80,10 @@ jobs:
 
       - name: Run tests
         run: pytest test.py
-      
-      - name: Drop one version
-        if: matrix.version == '3.12.7'
-        run: exit 1
+
+      - name: Run experimental something
+        if: matrix.experimental == true
+        run: echo "Running experimental thingie"
 
   deploy:
     needs: test
