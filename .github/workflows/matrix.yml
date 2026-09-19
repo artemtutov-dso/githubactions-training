@@ -63,9 +63,10 @@ jobs:
             version: '3.12.3'
             experimental: true
 
+
     steps:
       - name: Download artifact
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@v7
         with:
           name: app-python-${{ matrix.version}}
 
@@ -85,11 +86,20 @@ jobs:
         if: matrix.experimental == true
         run: echo "Running experimental thingie"
 
+      - name: Echo on failure
+        if: failure()
+        run: echo "Boo, failed test"
+
+      - name: Echo always 
+        if: always()
+        run: echo "Wow something is happenning"
+
+
   on_pull_request:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v8
+      - uses: actions/checkout@v7
       - name: Run PR workflow things
         run: echo "Running PR workflow"
 
