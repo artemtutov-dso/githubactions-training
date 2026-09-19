@@ -75,7 +75,7 @@ jobs:
         run: pytest test.py
       
       - name: Drop one version
-        if: matrix.version == '3.12.5'
+        if: matrix.version == '3.12.7'
         run: exit 1
 
   deploy:
