@@ -1,0 +1,22 @@
+name: oidc
+
+on:
+#  push:
+#    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print APP_ENV variable
+        run: echo ${{ vars.APP_ENV }}
+
+      - name: Print DEMO_SECRET secret
+        run: echo ${{ secrets.DEMO_SECRET }}
+
+      - name: Try print unmasked DEMO_SECRET secret
+        run: echo "$DEMO_SECRET" | fold -w1
