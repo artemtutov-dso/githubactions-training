@@ -16,9 +16,8 @@ jobs:
     with:
       image-name: ghcr.io/${{ github.repository }}/app-first
       push: true
-    #secrets:
-    #  REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    secrets: inherit
+    secrets:
+      REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   build-app-second:
     name: Build second app image
