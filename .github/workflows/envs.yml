@@ -1,8 +1,8 @@
 name: envs
 
 on:
-  push:
-    branches: [main, master]
+#  push:
+#    branches: [main, master]
   workflow_dispatch:
 
 permissions:
