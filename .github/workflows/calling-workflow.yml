@@ -1,0 +1,39 @@
+name: Build Multi-Image
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build-app-first:
+    name: Build first app image
+    uses: ./.github/workflows/reusable-build.yml
+    with:
+      image-name: ghcr.io/${{ github.repository }}/app-first
+      push: true
+    secrets:
+      REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  build-app-second:
+    name: Build second app image
+    uses: ./.github/workflows/reusable-build.yml
+    with:
+      image-name: ghcr.io/${{ github.repository }}/app-second
+      push: true
+    secrets:
+      REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  report:
+    name: Report Build Results
+    needs: [build-app-first, build-app-second]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print image tags
+        run: |
+          echo "App image tag: ${{ needs.build-app-first.outputs.image-tag }}"
+          echo "API image tag: ${{ needs.build-app-second.outputs.image-tag }}"
