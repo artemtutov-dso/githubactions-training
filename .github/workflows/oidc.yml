@@ -20,3 +20,9 @@ jobs:
 
       - name: Try print unmasked DEMO_SECRET secret
         run: echo "$DEMO_SECRET" | fold -w1
+
+      - name: Try print DEMO_SECRET in base64
+        env:
+          MY_SECRET: ${{ secrets.DEMO_SECRET }}
+        run: |
+          echo -n "$MY_SECRET" | base64
