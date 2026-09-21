@@ -1,0 +1,33 @@
+name: After
+on:
+  pull_request: # Safer pull_request
+    types: [opened, synchronize]
+
+# Explicit permissions
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  greet:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # Static version, v7.0.1
+      # Remove redundant reference to last commit in pr,  
+      #  with:
+      #    ref: ${{ github.event.pull_request.head.sha }}
+        # Hardening
+        with:
+          persist-credentials: false
+      - name: Greet
+        env: # Change pr title to pass as env var
+          PR_TITLE:  ${{ github.event.pull_request.title }}
+          PR_AUTHOR: ${{ github.event.pull_request.user.login }}
+        run: |
+          echo "Díky za PR: $PR_TITLE"
+          echo "Autor: $PR_AUTHOR"
+      - run: npm install && npm run build
+      - name: Comment
+        run: gh pr comment ${{ github.event.number }} --body "Build hotov"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
