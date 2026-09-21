@@ -3,7 +3,7 @@ name: Container build and push to GHCR
 on:
 #  push:
 #    branches: [main, master]
-  pull_request:
+#  pull_request:
 #    branches: [main, master]
   workflow_dispatch:
 
