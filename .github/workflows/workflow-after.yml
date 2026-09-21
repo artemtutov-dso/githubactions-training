@@ -26,7 +26,7 @@ jobs:
         run: |
           echo "Díky za PR: $PR_TITLE"
           echo "Autor: $PR_AUTHOR"
-      - run: npm install && npm run build
+      - run: echo "Placeholder for npm install etc"
       - name: Comment
         run: gh pr comment ${{ github.event.number }} --body "Build hotov"
         env:

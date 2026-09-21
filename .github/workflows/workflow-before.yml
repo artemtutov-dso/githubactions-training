@@ -3,6 +3,10 @@ on:
   pull_request_target:
     types: [opened, synchronize]
 
+# Added for testing purposes
+permissions:
+  pull-requests: write
+
 jobs:
   greet:
     runs-on: ubuntu-latest
