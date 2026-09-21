@@ -1,0 +1,21 @@
+name: Vulnerable
+on:
+  pull_request_target:
+    types: [opened, synchronize]
+
+jobs:
+  greet:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Greet
+        run: |
+          echo "Díky za PR: ${{ github.event.pull_request.title }}"
+          echo "Autor: ${{ github.event.pull_request.user.login }}"
+      - run: npm install && npm run build
+      - name: Comment
+        run: gh pr comment ${{ github.event.number }} --body "Build hotov"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
