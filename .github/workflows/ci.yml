@@ -92,17 +92,30 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Trivy image scan (vulns + secrets)
+      # Gate: prints a findings table in this step's log and fails the job on HIGH/CRITICAL
+      - name: Scan image with Trivy
         uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
         with:
-          scan-type: image
           image-ref: ${{ env.SCAN_IMAGE }}
           scanners: vuln,secret
-          severity: CRITICAL,HIGH
+          severity: HIGH,CRITICAL
           exit-code: '1'
+          ignore-unfixed: true
+
+      # Report: same scan as SARIF for the Security tab. Runs even when the gate failed;
+      # trivy and its DB are already on the runner, so this is a quick rescan.
+      - name: Generate Trivy SARIF
+        if: ${{ !cancelled() }}
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
+        with:
+          image-ref: ${{ env.SCAN_IMAGE }}
+          scanners: vuln,secret
+          severity: HIGH,CRITICAL
+          ignore-unfixed: true
           format: sarif
           output: trivy-results.sarif
           limit-severities-for-sarif: true
+          skip-setup-trivy: true
 
       - name: Upload SARIF artifact
         if: ${{ !cancelled() }}
