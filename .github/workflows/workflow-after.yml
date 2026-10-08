@@ -1,7 +1,8 @@
 name: After
 on:
-  pull_request: # Safer pull_request
-    types: [opened, synchronize]
+#  pull_request: # Safer pull_request
+#    types: [opened, synchronize]
+    workflow_dispatch:
 
 # Explicit permissions
 permissions:
